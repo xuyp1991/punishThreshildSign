@@ -14,6 +14,8 @@ import (
 	"github.com/libp2p/go-libp2p-core/host"
 
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
+	"github.com/xuyp1991/punishThreshildSign/ethutil"
+
 )
 
 // DiscoveryInterval is how often we re-publish our mDNS records.
@@ -22,10 +24,13 @@ const DiscoveryInterval = time.Hour
 // DiscoveryServiceTag is used in our mDNS advertisements to discover other chat peers.
 const DiscoveryServiceTag = "pubsub-chat-example"
 
+const strPwd = "password"
+
 func main() {
 	// parse some flags to set our nickname and the room to join
 	nickFlag := flag.String("nick", "", "nickname to use in chat. will be generated if empty")
 	roomFlag := flag.String("room", "awesome-chat-room", "name of chat room to join")
+	ethKeyPath := flag.String("ethpath","",  "the path of eth key")
 	flag.Parse()
 
 	ctx := context.Background()
@@ -53,6 +58,12 @@ func main() {
 	if len(nick) == 0 {
 		nick = defaultNick(h.ID())
 	}
+	//---------------------------------------------------
+	key1, err := ethutil.DecryptKeyFile(*ethKeyPath,strPwd)
+	if  err != nil {
+		fmt.Println("DecryptKeyFile error ",err)
+	}
+	//---------------------------------------------------
 
 	// join the room from the cli flag, or the flag default
 	room := *roomFlag
