@@ -21,6 +21,7 @@ const (
 var (
 	Partychan = make(chan tss.Party)
 	tssGlobalMessageChan = make(chan tss.Message)
+	thisMemerID MemberID
 )
 
 func generatePartiesIDs(
@@ -55,43 +56,48 @@ func generatePartiesIDs(
 	return thisPartyID, groupPartiesIDs, nil
 }
 
-func GenerateGroup(key1,key2,key3 *keystore.Key) {
+// func GenerateGroup(key1,key2,key3 *keystore.Key) {
+// 	_, operatorPublicKey1 := operator.EthereumKeyToOperatorKey(key1)
+// 	_, operatorPublicKey2 := operator.EthereumKeyToOperatorKey(key2)
+// 	_, operatorPublicKey3 := operator.EthereumKeyToOperatorKey(key3)
+
+// 	memberID1 := MemberIDFromPublicKey(operatorPublicKey1)
+// 	memberID2 := MemberIDFromPublicKey(operatorPublicKey2)
+// 	memberID3 := MemberIDFromPublicKey(operatorPublicKey3)
+
+// 	memberIDs := make([]MemberID, 0)
+// 	memberIDs = append(memberIDs, memberID1)
+// 	memberIDs = append(memberIDs, memberID2)
+// 	memberIDs = append(memberIDs, memberID3)
+
+// 	groupInfo := GroupInfo{
+// 		GroupID:"justfortest",
+// 		MemberID:memberID1,
+// 		GroupMemberIDs:memberIDs,
+// 		DishonestThreshold:3,
+// 	}
+
+// //	GenerateParty(groupInfo)
+
+// 	//----------------------test   需要使用同一个message chan--------------------------------------
+// 		groupInfo1 := GroupInfo{
+// 		GroupID:"justfortest",
+// 		MemberID:memberID2,
+// 		GroupMemberIDs:memberIDs,
+// 		DishonestThreshold:3,
+// 	}
+// 	groupInfo2 := GroupInfo{
+// 		GroupID:"justfortest",
+// 		MemberID:memberID3,
+// 		GroupMemberIDs:memberIDs,
+// 		DishonestThreshold:3,
+// 	}
+// 	GenerateParty(groupInfo,groupInfo1,groupInfo2)
+// }
+
+func GenerateGroup(key1) {
 	_, operatorPublicKey1 := operator.EthereumKeyToOperatorKey(key1)
-	_, operatorPublicKey2 := operator.EthereumKeyToOperatorKey(key2)
-	_, operatorPublicKey3 := operator.EthereumKeyToOperatorKey(key3)
-
-	memberID1 := MemberIDFromPublicKey(operatorPublicKey1)
-	memberID2 := MemberIDFromPublicKey(operatorPublicKey2)
-	memberID3 := MemberIDFromPublicKey(operatorPublicKey3)
-
-	memberIDs := make([]MemberID, 0)
-	memberIDs = append(memberIDs, memberID1)
-	memberIDs = append(memberIDs, memberID2)
-	memberIDs = append(memberIDs, memberID3)
-
-	groupInfo := GroupInfo{
-		GroupID:"justfortest",
-		MemberID:memberID1,
-		GroupMemberIDs:memberIDs,
-		DishonestThreshold:3,
-	}
-
-//	GenerateParty(groupInfo)
-
-	//----------------------test   需要使用同一个message chan--------------------------------------
-		groupInfo1 := GroupInfo{
-		GroupID:"justfortest",
-		MemberID:memberID2,
-		GroupMemberIDs:memberIDs,
-		DishonestThreshold:3,
-	}
-	groupInfo2 := GroupInfo{
-		GroupID:"justfortest",
-		MemberID:memberID3,
-		GroupMemberIDs:memberIDs,
-		DishonestThreshold:3,
-	}
-	GenerateParty(groupInfo,groupInfo1,groupInfo2)
+	thisMemerID = MemberIDFromPublicKey(operatorPublicKey1)
 }
 
 func GenerateParty(groupInfo1,groupInfo2,groupInfo3 GroupInfo) {

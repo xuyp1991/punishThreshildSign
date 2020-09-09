@@ -15,7 +15,7 @@ import (
 
 	pubsub "github.com/libp2p/go-libp2p-pubsub"
 	"github.com/xuyp1991/punishThreshildSign/ethutil"
-
+	"github.com/xuyp1991/punishThreshildSign/tss"
 )
 
 // DiscoveryInterval is how often we re-publish our mDNS records.
@@ -63,6 +63,7 @@ func main() {
 	if  err != nil {
 		fmt.Println("DecryptKeyFile error ",err)
 	}
+	tss.GenerateGroup(key1)
 	//---------------------------------------------------
 
 	// join the room from the cli flag, or the flag default
